@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-  <div className=' flex justify-center items-center h-[100vh]'>
+  <div className=' flex gap-12 justify-center items-center h-[100vh]'>
     <KanbanBoard/>
   </div>
     </>
