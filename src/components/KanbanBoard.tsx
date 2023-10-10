@@ -2,10 +2,12 @@
 import { useState } from "react"
 import { Column, Id } from "../types"
 import ColumnContainer from "./ColumnContainer"
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 const KanbanBoard = () => {
 
 	const [column,setColumn] = useState<Column[]>([])
+	const [animationParent] = useAutoAnimate()
 
 	console.log(column)
 
@@ -26,7 +28,7 @@ const KanbanBoard = () => {
 	return (
 		<>
 
-		<div className="flex gap-12">
+		<div ref={animationParent} className="flex gap-12">
 			{
 				column.map((col)=>(
 					<ColumnContainer key={col.id} deleteColumn={deleteColumn} column={col}/>
