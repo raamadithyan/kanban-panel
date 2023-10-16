@@ -21,7 +21,7 @@ function KanbanBoard ()  {
 	const [column,setColumn] = useState<Column[]>([])
 
 	 const [activeColumn, setActiveColumn] = useState<Column | null>(null);
-	const [activeTask, setActiveTask] = useState<Task | null>(null);
+	// const [activeTask, setActiveTask] = useState<Task | null>(null);
 
 	const [animationParent] = useAutoAnimate()
 
@@ -56,6 +56,15 @@ function addColumn () {
         console.log("bruh")
     }
 
+      function updateColumn(id: Id, title: string) {
+    const newColumns = column.map((col) => {
+      if (col.id !== id) return col;
+      return { ...col, title };
+    });
+
+    setColumn(newColumns);
+  }
+
     function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -70,7 +79,7 @@ function addColumn () {
 
     function onDragEnd(event: DragEndEvent) {
     setActiveColumn(null);
-    setActiveTask(null);
+    // setActiveTask(null);
 
     const { active, over } = event;
     if (!over) return;
@@ -99,7 +108,7 @@ function addColumn () {
 		<div ref={animationParent} className="flex gap-12">
 			{
 				column.map((col)=>(
-					<ColumnContainer key={col.id} deleteColumn={deleteColumn} column={col}/>
+					<ColumnContainer key={col.id} deleteColumn={deleteColumn} updateColumn={updateColumn} column={col}/>
 				))
 			}
 		</div>
