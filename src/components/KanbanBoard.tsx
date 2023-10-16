@@ -1,6 +1,6 @@
 
 import { useState,useMemo } from "react"
-import { Column, Id } from "../types"
+import { Column, Id, Task } from "../types"
 import { createPortal } from "react-dom";
 import ColumnContainer from "./ColumnContainer"
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -19,6 +19,7 @@ import {SortableContext,arrayMove} from '@dnd-kit/sortable';
 function KanbanBoard ()  {
 
 	const [column,setColumn] = useState<Column[]>([])
+	const [tasks,setTasks] =useState<Task>([])
 
 	 const [activeColumn, setActiveColumn] = useState<Column | null>(null);
 	// const [activeTask, setActiveTask] = useState<Task | null>(null);
@@ -105,7 +106,7 @@ function addColumn () {
 		<>
 		<DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} sensors={sensors}>
 		<SortableContext items={columnsId}>
-		<div ref={animationParent} className="flex gap-12">
+		<div ref={animationParent} className="flex gap-16  relative top-20 mx-16">
 			{
 				column.map((col)=>(
 					<ColumnContainer key={col.id} deleteColumn={deleteColumn} updateColumn={updateColumn} column={col}/>
@@ -120,7 +121,7 @@ function addColumn () {
             
 				className="
       h-[60px]
-      w-[350px]
+      w-[150px]
       min-w-[350px]
       cursor-pointer
       rounded-lg
@@ -132,7 +133,9 @@ function addColumn () {
       hover:ring-2
       flex
       items-center
+      justify-center
       gap-2
+      fixed top-20 left-[50%] transform translate-x-[-50%] 
       "
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
@@ -145,7 +148,7 @@ function addColumn () {
 			{ createPortal( <DragOverlay>
 			{activeColumn &&
 			 (
-			 	 <ColumnContainer column={activeColumn} deleteColumn={deleteColumn} />
+			 	 <ColumnContainer updateColumn={updateColumn} column={activeColumn} deleteColumn={deleteColumn} />
 			 	)}
 			</DragOverlay>,document.body)
 
