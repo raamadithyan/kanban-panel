@@ -19,7 +19,7 @@ import {SortableContext,arrayMove} from '@dnd-kit/sortable';
 function KanbanBoard ()  {
 
 	const [column,setColumn] = useState<Column[]>([])
-	const [tasks,setTasks] =useState<Task>([])
+	const [tasks,setTasks] =useState<Task[]>([])
 
 	 const [activeColumn, setActiveColumn] = useState<Column | null>(null);
 	// const [activeTask, setActiveTask] = useState<Task | null>(null);
@@ -66,6 +66,17 @@ function addColumn () {
     setColumn(newColumns);
   }
 
+  function createTask(columnId:Id){
+  	const newTask:Task = {
+  		id:crypto.randomUUID(),
+  		columnId,
+  		content:`Task &{task.length+1}`
+  	}
+
+  	setTasks([...tasks,newTask])
+
+  }
+
     function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -109,7 +120,14 @@ function addColumn () {
 		<div ref={animationParent} className="flex gap-16  relative top-20 mx-16">
 			{
 				column.map((col)=>(
-					<ColumnContainer key={col.id} deleteColumn={deleteColumn} updateColumn={updateColumn} column={col}/>
+					<ColumnContainer  
+					key={col.id}
+					 column={col}
+					 deleteColumn={deleteColumn} 
+					 updateColumn={updateColumn}
+					 createTask={createTask}
+					 tasks={tasks.filter(task=>task.columnId===col.id)}
+					 />
 				))
 			}
 		</div>
@@ -148,7 +166,12 @@ function addColumn () {
 			{ createPortal( <DragOverlay>
 			{activeColumn &&
 			 (
-			 	 <ColumnContainer updateColumn={updateColumn} column={activeColumn} deleteColumn={deleteColumn} />
+			 	 <ColumnContainer 
+			 	 updateColumn={updateColumn}
+			 	  column={activeColumn} 
+			 	  deleteColumn={deleteColumn}
+			 	  createTask={createTask}
+			 	   />
 			 	)}
 			</DragOverlay>,document.body)
 

@@ -1,4 +1,4 @@
-import { Column, Id } from "../types"
+import { Column, Id, Task } from "../types"
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import { useState } from "react";
@@ -7,8 +7,10 @@ interface Props {
 	column: Column;
     updateColumn:(id:Id,title:string)=>void;
 	deleteColumn: (id: Id) => void;
+	createTask:(columnId:Id)=>void;
+	tasks:Task[]
 }
-const ColumnContainer = ({column,deleteColumn,updateColumn}: Props) => {
+const ColumnContainer = ({column,deleteColumn,updateColumn,createTask,tasks}: Props) => {
 
 	// const { column, deleteColumn } = props;
  const [editmode, setEditMode] = useState(false)
@@ -16,7 +18,7 @@ const ColumnContainer = ({column,deleteColumn,updateColumn}: Props) => {
 
 
 		  const {
-	    setNodeRef,
+	    setNodeRef,	
 	    attributes,
 	    listeners,
 	    transform,
@@ -90,13 +92,17 @@ const ColumnContainer = ({column,deleteColumn,updateColumn}: Props) => {
 
 
 				<div className=" flex flex-col gap-8  items-center    ">
+			{
+				tasks.map(()=><h2> Hello</h2>)
+			}
 
+
+					{/*<div className="w-[300px] h-[100px] bg-green-800"></div>
 					<div className="w-[300px] h-[100px] bg-green-800"></div>
 					<div className="w-[300px] h-[100px] bg-green-800"></div>
 					<div className="w-[300px] h-[100px] bg-green-800"></div>
 					<div className="w-[300px] h-[100px] bg-green-800"></div>
-					<div className="w-[300px] h-[100px] bg-green-800"></div>
-					<div className="w-[300px] h-[100px] bg-green-800"></div>
+					<div className="w-[300px] h-[100px] bg-green-800"></div>*/}
 
 
 				</div>
@@ -104,7 +110,9 @@ const ColumnContainer = ({column,deleteColumn,updateColumn}: Props) => {
 			</div>
 			
 
-			<button className=" absolute bottom-0 group hover:bg-neutral-800 flex items-center px-8 w-[350px] h-12 justify-start gap-2 bg-neutral-900">
+			<button className=" absolute bottom-0 group hover:bg-neutral-800 flex items-center px-8 w-[350px] h-12 justify-start gap-2 bg-neutral-900"
+				onClick={()=>createTask(column.id)}
+			>
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className=" group-hover:text-green-400 w-6 h-6">
 					<path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 				</svg>
