@@ -69,8 +69,9 @@ function addColumn () {
   function createTask(columnId:Id){
   	const newTask:Task = {
   		id:crypto.randomUUID(),
+
   		columnId,
-  		content:`Task &{task.length+1}`
+  		content:`Task ${tasks.length+1}`
   	}
 
   	setTasks([...tasks,newTask])
@@ -171,6 +172,9 @@ function addColumn () {
 			 	  column={activeColumn} 
 			 	  deleteColumn={deleteColumn}
 			 	  createTask={createTask}
+			 	  tasks={tasks.filter(
+                  (task) => task.columnId === activeColumn.id
+                )}
 			 	   />
 			 	)}
 			</DragOverlay>,document.body)

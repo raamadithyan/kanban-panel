@@ -2,13 +2,14 @@ import { Column, Id, Task } from "../types"
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import { useState } from "react";
+import TaskCard from "./TaskCard";
 
 interface Props {
 	column: Column;
     updateColumn:(id:Id,title:string)=>void;
 	deleteColumn: (id: Id) => void;
 	createTask:(columnId:Id)=>void;
-	tasks:Task[]
+	tasks:Task[];
 }
 const ColumnContainer = ({column,deleteColumn,updateColumn,createTask,tasks}: Props) => {
 
@@ -91,9 +92,17 @@ const ColumnContainer = ({column,deleteColumn,updateColumn,createTask,tasks}: Pr
 			<div className=" flex flex-col justify-between  w-[350px] h-[500px] bg-neutral-800 rounded-md overflow-y-auto ">
 
 
-				<div className=" flex flex-col gap-8  items-center    ">
+				<div 
+				className=" 
+					flex flex-col
+					 gap-6 p-3
+					  mt-14    ">
 			{
-				tasks.map(()=><h2> Hello</h2>)
+				tasks.map((task)=>(
+					<TaskCard key={task.id} task={task}/>
+					)
+
+					)
 			}
 
 
