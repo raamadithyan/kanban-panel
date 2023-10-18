@@ -78,6 +78,11 @@ function addColumn () {
 
   }
 
+
+  function deleteTask(id:Id) {
+  	setTasks(prev=>prev.filter(task=>task.id!==id))
+  }
+
     function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -128,6 +133,7 @@ function addColumn () {
 					 updateColumn={updateColumn}
 					 createTask={createTask}
 					 tasks={tasks.filter(task=>task.columnId===col.id)}
+					 deleteTask={deleteTask}
 					 />
 				))
 			}
@@ -175,6 +181,7 @@ function addColumn () {
 			 	  tasks={tasks.filter(
                   (task) => task.columnId === activeColumn.id
                 )}
+			 	  deleteTask={deleteTask}
 			 	   />
 			 	)}
 			</DragOverlay>,document.body)
